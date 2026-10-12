@@ -1,0 +1,111 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111127"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ScoreParty"><meta name="description" content="Punktezähler für deinen Spieleabend – Skyjo und Flip 7"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png"><title>ScoreParty</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#f5f5ff;background:#101025}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0%,#342365,transparent 48%),#101025;min-height:100vh}main{max-width:700px;margin:auto;padding:22px 16px 90px}h1{font-size:32px;margin:0}h2{font-size:20px}small,.muted{color:#b5b3cb}.brand{color:#b8a1ff;font-weight:800;letter-spacing:.1em;font-size:12px}.panel{background:#1d1c38;border:1px solid #3b3859;border-radius:20px;padding:17px;margin:16px 0;box-shadow:0 10px 30px #0002}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.stack{display:grid;gap:12px}.chips{display:flex;gap:8px;flex-wrap:wrap}button,select,input{font:inherit}button{border:0;border-radius:12px;padding:12px 15px;background:#353354;color:white;font-weight:700;cursor:pointer}button.primary{background:linear-gradient(110deg,#8664ff,#d65fd5)}button.selected{background:#7553e6}button:disabled{opacity:.35;cursor:not-allowed}input,select{background:#14142b;color:white;border:1px solid #585474;border-radius:10px;padding:12px;min-width:0}input[type=number]{width:92px;text-align:center;font-size:19px}input[type=text]{width:100%}.player{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:#262443;padding:12px;border-radius:14px}.player.leader{outline:2px solid #e9bd61}.score{font-size:25px;font-weight:900}.rank{font-size:12px;color:#a99df4}.roundrow{display:grid;grid-template-columns:55px 1fr;gap:12px;padding:8px;border-bottom:1px solid #3d3957}.toolbar{display:flex;flex-wrap:wrap;gap:8px}.hidden{display:none!important}.overlay{position:fixed;inset:0;background:#090817ee;z-index:10;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}.celebrate{width:min(500px,100%);text-align:center;border:1px solid #8664ff;background:radial-gradient(circle at 50% 0%,#543b9a,#1b1835 72%);border-radius:28px;padding:38px 20px;animation:pop .5s ease-out}.trophy{font-size:72px;animation:bounce 1s infinite alternate}.winner{font-size:clamp(32px,8vw,52px);font-weight:900;color:#f9d57d;margin:14px 0}.big{font-size:36px;font-weight:900}.confetti{position:absolute;top:-10%;width:8px;height:16px;animation:fall 3s linear infinite;pointer-events:none}@keyframes fall{to{transform:translateY(120vh) rotate(800deg)}}@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}@keyframes bounce{to{transform:translateY(-12px)}}.footer{font-size:12px;color:#a8a4bf;text-align:center;margin:24px}label{font-size:13px;color:#d7d2eb}#toast{color:#f5cb74;min-height:20px}
+ 
+.gamepick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.gamepick button{display:flex;flex-direction:column;align-items:center;gap:5px;min-height:120px;border:2px solid #46425f;background:#26243f;transition:transform .2s,border-color .2s,box-shadow .2s}
+.gamepick button.selected{transform:translateY(-2px);border-color:#d8b9ff;box-shadow:0 0 0 2px #a275ff44,0 0 30px #a275ff55;background:linear-gradient(145deg,#6643be,#39255f)}
+body.flip7 .gamepick button.selected{border-color:#68e9ef;box-shadow:0 0 0 2px #4bdbdd44,0 0 30px #4bdbdd44;background:linear-gradient(145deg,#136a81,#20395d)}
+.gameemoji{font-size:32px}.gamepick small{font-size:11px;color:#e4dcfa}.gamebanner{margin-top:12px;text-align:center;padding:10px;border-radius:10px;background:#7b4ee233;font-size:13px;font-weight:750}
+body.flip7 .gamebanner{background:#12aeb333}
+input[type=number]{width:115px}.showActions{display:grid;gap:10px;margin-top:18px}.subtle{background:transparent;color:#c7bfdc}
+#showRanking{margin-top:15px;text-align:left;max-height:48vh;overflow:auto}
+.showRank{display:flex;justify-content:space-between;align-items:center;padding:13px;border-radius:12px;background:#292543;animation:rise .5s both}
+.showRank.top{background:linear-gradient(110deg,#7b4eaa,#57411d);outline:2px solid #f8d57a;box-shadow:0 0 20px #f9c86e44}
+.showRank .position{font-size:12px;color:#c7c1db}.showRank .name{font-size:18px;font-weight:800}.showRank .points{font-size:23px;font-weight:900}
+#rankingScene h2{margin:4px 0 10px}.celebrate{max-height:90vh;overflow:auto}
+@keyframes rise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+.finalCup{font-size:100px;filter:drop-shadow(0 0 28px #ffd46a);animation:bounce .8s infinite alternate}.finalCup+.brand{color:#ffe194}#finalScene h2{font-size:28px;color:#ffe194}#finalScene .winner{animation:pop .7s ease-out}.overlay:has(#finalScene:not(.hidden)) .celebrate{border:2px solid #f6c65e;background:radial-gradient(circle at 50% 0%,#7a5b25,#241b35 75%)}@media(prefers-reduced-motion:reduce){.confetti,.trophy,.showRank,.celebrate{animation:none!important}}
+</style></head><body><main><div class="brand">GAME NIGHT EXPERIENCE</div><div class="row"><h1>🎲 ScoreParty</h1><span>✨ v2.4</span></div><p class="muted">Punkte zählen. Führung feiern. Gemeinsam spielen.</p><div class="panel"><div class="row"><strong>Spiel auswählen</strong><span id="gameHint" class="muted"></span></div><div class="gamepick"><button id="sky" onclick="changeGame('skyjo')"><span class="gameemoji">🃏</span><strong>SKYJO</strong><small>Wenig Punkte gewinnen</small></button><button id="flip" onclick="changeGame('flip7')"><span class="gameemoji">⚡</span><strong>FLIP 7</strong><small>Viele Punkte gewinnen</small></button></div><div id="gameBanner" class="gamebanner"></div></div><div class="panel"><div class="row"><h2>👥 Spieler</h2><select id="count" onchange="changeCount(this.value)"></select></div><div id="names" class="stack"></div></div><div class="panel"><div class="row"><h2>🏆 Gesamtstand</h2><span id="roundLabel" class="muted"></span></div><div id="board" class="stack"></div></div><div class="panel"><h2>✍️ Aktuelle Runde</h2><p class="muted">Alle Punkte eintragen, dann die Runde abschließen.</p><div id="entry" class="stack"></div><div id="toast"></div><button class="primary" style="width:100%;margin-top:14px" onclick="finishRound()">✨ Runde abschließen & Show starten</button></div><div class="panel"><div class="row"><h2>🎵 Sound & Musik</h2><button id="musicBtn" onclick="toggleMusic()">▶ Musik an</button></div><p class="muted">Sanfter elektronischer Hintergrundgroove und feierliche Siegerehrung. Ton startet erst nach einer Berührung.</p><label><input type="checkbox" id="effects" checked onchange="save()"> Soundeffekte aktiv</label></div><div class="panel"><div class="row"><h2>📜 Spielverlauf</h2><button onclick="undo()">↩ Letzte Runde</button></div><div id="history"></div></div><div class="toolbar"><button onclick="newGame()">🔄 Neues Spiel</button><button onclick="exportData()">📤 Ergebnisse exportieren</button></div><div class="footer">Lokale Demo · keine Anmeldung · Spielstände werden auf diesem Gerät gespeichert</div></main><div id="overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Rundenergebnis">
+<div id="particles"></div><div class="celebrate">
+<div id="showStep" class="brand">RUNDE ABGESCHLOSSEN</div>
+<div id="winnerScene"><div class="trophy">🏆</div><div class="brand">AKTUELL IN FÜHRUNG</div><div id="winner" class="winner"></div><div id="winnerPoints" class="big"></div><p id="winInfo" class="muted"></p></div>
+<div id="finalScene" class="hidden"><div class="finalCup">🏆</div><div class="brand">DAS SPIEL IST BEENDET</div><h2>🎉 GEWINNER 🎉</h2><div id="finalWinner" class="winner"></div><div id="finalScore" class="big"></div><p class="muted">Herzlichen Glückwunsch!</p></div><div id="rankingScene" class="hidden"><h2>🏁 Gesamtpunktestand</h2><div id="showRanking" class="stack"></div></div>
+<div class="showActions"><button id="showNext" class="primary" onclick="nextShow()">Gesamtstand ansehen →</button><button class="subtle" onclick="closeShow()">Show überspringen</button></div>
+</div></div><script>
+let pendingAction='';function showNotice(message){$('toast').textContent=message;window.scrollTo({top:0,behavior:'smooth'});$('gameBanner').textContent=message}const KEY='scoreparty_v1';const defaults=()=>({game:'skyjo',count:4,names:['Mama','Papa','Jona','Milo','Spieler 5','Spieler 6','Spieler 7','Spieler 8'],rounds:[],draft:Array(8).fill(''),effects:true});let s;try{s={...defaults(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{s=defaults()}let ctx,musicTimer=null,musicStep=0,showTimer=null,showStage=0,showFinished=false,soundTimers=[],musicWasPlaying=false;const $=id=>document.getElementById(id);const active=()=>s.names.slice(0,s.count);const total=i=>s.rounds.reduce((a,r)=>a+(Number(r[i])||0),0);const target=()=>s.game==='skyjo'?100:200;const gameOver=()=>s.rounds.length>0&&active().some((_,i)=>total(i)>=target());const leaderIds=()=>{let t=active().map((_,i)=>total(i)),best=s.game==='skyjo'?Math.min(...t):Math.max(...t);return t.flatMap((v,i)=>v===best?[i]:[])};const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){s.effects=$('effects').checked;try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}function changeGame(g){
+if(s.game===g)return;
+if(s.rounds.length){
+ if(pendingAction!=='switch:'+g){pendingAction='switch:'+g;showNotice('Zum Wechsel auf '+(g==='skyjo'?'Skyjo':'Flip 7')+' noch einmal dieselbe Spielkachel antippen. Die bisherigen Runden werden gelöscht.');return}
+}
+pendingAction='';s.game=g;s.rounds=[];s.draft=Array(8).fill('');render();showNotice('Spiel gewechselt: '+(g==='skyjo'?'Skyjo':'Flip 7')+'.');
+}function changeCount(n){s.count=+n;s.draft=Array(8).fill('');s.rounds=[];render()}function changeName(i,v){s.names[i]=v||'Spieler '+(i+1);save();renderBoard();renderEntry();}function changeScore(i,v){s.draft[i]=v;save()}function renderBoard(){let order=active().map((name,i)=>({name:name||'Spieler '+(i+1),i,t:total(i)})).sort((a,b)=>s.game==='skyjo'?a.t-b.t:b.t-a.t);let leaders=s.rounds.length?leaderIds():[];$('board').innerHTML=order.map((p,rank)=>`<div class="player ${leaders.includes(p.i)?'leader':''}"><div><span class="rank">${s.rounds.length?rank+1+'. PLATZ':'SPIELER '+(p.i+1)}</span><div><strong>${esc(p.name)}</strong> ${leaders.includes(p.i)?'👑':''}</div></div><div class="score">${p.t}<small> Pkt.</small></div></div>`).join('');$('roundLabel').textContent=s.rounds.length+' abgeschlossene Runden'}function renderEntry(){$('entry').innerHTML=active().map((name,i)=>`<div class="player"><strong>${esc(name)}</strong><input type="number" inputmode="numeric" placeholder="Punkte" value="${esc(s.draft[i]??'')}" oninput="changeScore(${i},this.value)"></div>`).join('')}function renderHistory(){$('history').innerHTML=s.rounds.length?s.rounds.map((r,idx)=>`<div class="roundrow"><b>#${idx+1}</b><div>${r.slice(0,s.count).map((p,i)=>`${esc(s.names[i])}: <b>${p}</b>`).join(' · ')}</div></div>`).reverse().join(''):'<p class="muted">Noch keine Runde abgeschlossen.</p>'}function render(){document.body.classList.toggle('flip7',s.game==='flip7');$('gameBanner').textContent=s.game==='skyjo'?'🃏 SKYJO AKTIV · Niedrigster Gesamtstand führt':'⚡ FLIP 7 AKTIV · Höchster Gesamtstand führt';let select=$('count');select.innerHTML=Array.from({length:7},(_,i)=>`<option value="${i+2}" ${s.count===i+2?'selected':''}>${i+2} Spieler</option>`).join('');$('sky').classList.toggle('selected',s.game==='skyjo');$('flip').classList.toggle('selected',s.game==='flip7');$('gameHint').textContent=s.game==='skyjo'?'Wenig Punkte gewinnen':'Viele Punkte gewinnen';$('names').innerHTML=active().map((n,i)=>`<div class="row"><label>Spieler ${i+1}</label><input type="text" maxlength="24" value="${esc(n)}" onchange="changeName(${i},this.value)"></div>`).join('');$('effects').checked=s.effects;renderBoard();renderEntry();renderHistory();$('toast').textContent=gameOver()?'🏁 Spiel beendet! Neues Spiel starten oder letzte Runde zurücknehmen.':'';save()}function finishRound(){if(gameOver()){$('toast').textContent='Das Spiel ist beendet. Starte ein neues Spiel oder nimm die letzte Runde zurück.';return}let vals=s.draft.slice(0,s.count);if(vals.some(v=>v===''||v===null||!Number.isFinite(Number(v)))){$('toast').textContent='Bitte zuerst für alle Spieler Punkte eintragen.';return}s.rounds.push(vals.map(Number));s.draft=Array(8).fill('');$('toast').textContent='';render();show()}function show(){
+let ids=leaderIds(),names=ids.map(i=>s.names[i]);
+$('winner').textContent=names.join(' & ');$('winnerPoints').textContent=total(ids[0])+' Punkte';
+let finished=gameOver();showFinished=finished;
+$('winInfo').textContent=(ids.length>1?'Gleichstand! · ':'')+(finished?'Zielpunktzahl erreicht – Spielende prüfen!':'Nach Runde '+s.rounds.length);
+let order=active().map((name,i)=>({name,i,points:total(i)})).sort((a,b)=>s.game==='skyjo'?a.points-b.points:b.points-a.points);
+$('showRanking').innerHTML=order.map((p,i)=>`<div class="showRank ${ids.includes(p.i)?'top':''}" style="animation-delay:${i*.12}s"><div><div class="position">${ids.includes(p.i)?'👑 ':''}${i+1}. PLATZ</div><div class="name">${esc(p.name)}</div></div><div class="points">${p.points} <small>Pt.</small></div></div>`).join('');
+$('finalWinner').textContent=names.join(' & ');$('finalScore').textContent=total(ids[0])+' Punkte';$('overlay').classList.remove('hidden');showStage=0;setShowStage(0);
+let p=$('particles');p.innerHTML='';for(let i=0;i<48;i++){let d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'%';d.style.background=['#ffd77d','#c06eff','#70e7f6','#ff71a6'][i%4];d.style.animationDelay=-Math.random()*3+'s';d.style.animationDuration=(2+Math.random()*2)+'s';p.appendChild(d)}
+if(s.effects){if(finished){pauseMusicForFinal();victoryFanfare()}else fanfare()}
+showTimer=setTimeout(()=>setShowStage(finished?1:2),finished?5500:4200);
+}
+function setShowStage(stage){
+showStage=stage;
+$('winnerScene').classList.toggle('hidden',stage!==0);
+$('finalScene').classList.toggle('hidden',stage!==1);
+$('rankingScene').classList.toggle('hidden',stage!==2);
+$('showStep').textContent=stage===0?(showFinished?'🎊 DAS FINALE':'✨ DIE FÜHRUNG'):stage===1?'🥇 DIE SIEGEREHRUNG':'📊 ENDSTAND & PLATZIERUNGEN';
+$('showNext').textContent=stage===0?(showFinished?'Siegerehrung ansehen →':'Gesamtstand ansehen →'):stage===1?'Endstand ansehen →':'Zurück zur Übersicht →';
+if(stage===1&&s.effects)victoryChime();
+if(stage===2&&s.effects)rankingChime();
+}
+function nextShow(){clearTimeout(showTimer);if(showStage===0)setShowStage(showFinished?1:2);else if(showStage===1)setShowStage(2);else closeShow()}
+function closeShow(){clearTimeout(showTimer);$('overlay').classList.add('hidden');if(showFinished)resumeMusicAfterFinal()}
+function undo(){if(!s.rounds.length)return;let r=s.rounds.pop();s.draft=Array(8).fill('');r.forEach((v,i)=>s.draft[i]=String(v));pendingAction='';render();showNotice('Letzte Runde zurückgenommen.')}function newGame(){
+if(s.rounds.length||s.draft.some(v=>v!=='')){
+if(pendingAction!=='reset'){pendingAction='reset';showNotice('Zum Zurücksetzen erneut auf „Neues Spiel“ tippen. Alle Runden werden gelöscht.');return}
+}
+pendingAction='';s.rounds=[];s.draft=Array(8).fill('');render();showNotice('Neues Spiel gestartet. Alle Punkte sind zurückgesetzt.');
+}function exportData(){let rows=[['Runde',...active()],...s.rounds.map((r,i)=>[i+1,...r]),['Gesamt',...active().map((_,i)=>total(i))]];let csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(';')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='ScoreParty_'+s.game+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}function audio(){ctx??=new (window.AudioContext||window.webkitAudioContext)();ctx.resume();return ctx}function tone(freq,duration=0.15,type='sine',vol=.05){try{let a=audio(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime;o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g).connect(a.destination);o.start(t);o.stop(t+duration+.02)}catch{}}function fanfare(){try{audio();let notes=[[392,0,.22],[523,.16,.24],[659,.32,.25],[784,.50,.33],[1047,.76,.6],[784,1.04,.25],[1047,1.3,.85]];notes.forEach(([f,t,d])=>setTimeout(()=>{tone(f,d,'triangle',.09);tone(f/2,d,'sine',.025)},t*1000))}catch{}}
+function pauseMusicForFinal(){
+musicWasPlaying=!!musicTimer;
+if(musicTimer){clearInterval(musicTimer);musicTimer=null;$('musicBtn').textContent='▶ Musik an'}
+}
+function resumeMusicAfterFinal(){
+if(musicWasPlaying&&!musicTimer){musicWasPlaying=false;toggleMusic()}
+}
+function noiseBurst(when,duration=.085,volume=.045){
+try{
+let a=audio(),rate=a.sampleRate,buffer=a.createBuffer(1,Math.ceil(rate*duration),rate),data=buffer.getChannelData(0);
+for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1);
+let src=a.createBufferSource(),filter=a.createBiquadFilter(),gain=a.createGain();
+src.buffer=buffer;filter.type='bandpass';filter.frequency.value=1100;filter.Q.value=.7;
+let t=a.currentTime+when;gain.gain.setValueAtTime(.0001,t);gain.gain.linearRampToValueAtTime(volume,t+.009);gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+src.connect(filter).connect(gain).connect(a.destination);src.start(t);src.stop(t+duration+.01);
+}catch{}
+}
+function crowdCheers(){
+try{
+audio();
+for(let i=0;i<85;i++){let t=i*.055+Math.random()*.06;noiseBurst(t,.055+Math.random()*.095,.015+Math.random()*.03)}
+for(let i=0;i<13;i++){
+let t=.15+Math.random()*3.7,base=310+Math.random()*260;
+soundTimers.push(setTimeout(()=>{tone(base,.34+Math.random()*.3,'sawtooth',.008);tone(base*1.5,.2,'sine',.012)},t*1000));
+}
+}catch{}
+}
+function victoryFanfare(){
+try{
+audio();
+const melody=[523,659,784,1047,988,1047,1175,1319,1568,1319,1568];
+const beat=.205;
+melody.forEach((f,i)=>{
+soundTimers.push(setTimeout(()=>{tone(f,i===melody.length-1?.95:.17,'triangle',.095);tone(f/2,.17,'sine',.035)},i*beat*1000))
+});
+for(let i=0;i<22;i++)soundTimers.push(setTimeout(()=>{tone(i%4===0?130.81:196,.075,'triangle',.019)},i*beat*500));
+crowdCheers();
+}catch{}
+}
+function victoryChime(){
+try{
+[784,988,1175,1568,1760,2093].forEach((f,i)=>soundTimers.push(setTimeout(()=>tone(f,.25,'triangle',.06),i*125)));
+for(let i=0;i<55;i++)noiseBurst(i*.072,.07,.025+Math.random()*.018);
+}catch{}
+}
+function rankingChime(){[659,784,988].forEach((f,i)=>setTimeout(()=>tone(f,.32,'sine',.035),i*135))}
+function toggleMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null;$('musicBtn').textContent='▶ Musik an';return}
+audio();let bass=[130.81,130.81,174.61,196,146.83,146.83,174.61,130.81],melody=[392,0,523,440,392,0,349,330,392,0,523,587,523,440,392,0];
+musicTimer=setInterval(()=>{let step=musicStep++;if(step%4===0)tone(bass[Math.floor(step/4)%bass.length],.65,'sine',.018);let f=melody[step%melody.length];if(f)tone(f,.24,'sine',.012);if(step%4===2)tone(784,.06,'triangle',.005)},260);
+$('musicBtn').textContent='⏸ Musik aus'}
+render();</script><script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}</script></body></html>
